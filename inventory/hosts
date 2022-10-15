@@ -1,3 +1,13 @@
-[serverGroupA]
-192.168.100.9
-192.168.100.10
+[server1]
+13.230.156.220
+
+[server2]
+35.78.63.242
+
+[server1:vars]
+ansible_ssh_user = ubuntu
+ansible_ssh_private_key_file = ./terraform/key_pairs/tuntun-ansible_1_key_pair.pem
+
+[server2:vars]
+ansible_ssh_user = ubuntu
+ansible_ssh_private_key_file = ./terraform/key_pairs/tuntun-ansible_2_key_pair.pem

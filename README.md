@@ -8,7 +8,19 @@ Install ansible
     ansible --version
 ```
 
+# Building System
+```
+    export AWS_PROFILE=orderr_dev_tda_northeast
+    terraform init
+    terraform plan
+    terraform apply
+    terraform destroy
+```
+Copy IPs output
+
 # Guideline
+https://viblo.asia/p/phan-1-tim-hieu-ve-ansible-4dbZNxv85YM
+
 https://github.com/ansible/ansible-examples/tree/master/lamp_simple
 
 https://github.com/chrisanthropic/ansible-aws-template
