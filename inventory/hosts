@@ -1,13 +1,15 @@
-[server1]
-13.230.156.220
+[server_ubuntu]
+35.77.198.253
 
-[server2]
-35.78.63.242
+[server_centos]
+13.115.251.2
 
-[server1:vars]
+[server_ubuntu:vars]
 ansible_ssh_user = ubuntu
-ansible_ssh_private_key_file = ./terraform/key_pairs/tuntun-ansible_1_key_pair.pem
+ansible_ssh_common_args='-o StrictHostKeyChecking=accept-new'
+ansible_ssh_private_key_file = ./terraform/key_pairs/tuntun-ansible_ubuntu_key_pair.pem
 
-[server2:vars]
-ansible_ssh_user = ubuntu
-ansible_ssh_private_key_file = ./terraform/key_pairs/tuntun-ansible_2_key_pair.pem
+[server_centos:vars]
+ansible_ssh_user = ec2-user
+ansible_ssh_common_args='-o StrictHostKeyChecking=accept-new'
+ansible_ssh_private_key_file = ./terraform/key_pairs/tuntun-ansible_centos_key_pair.pem

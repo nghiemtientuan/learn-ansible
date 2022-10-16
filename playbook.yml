@@ -1,7 +1,72 @@
 - hosts: all
   become: yes
+  vars:
+    - domain_name: "TunTun Server"
+    - index_file: "index.html"
+
   tasks:
+    # Detect OS
+    - name: Define Red Hat
+      set_fact:
+        server_package_name: "httpd"
+        os_server: CentOS
+      when:
+        ansible_os_family == "RedHat"
+
+    - name: Define Debian.
+      set_fact:
+        server_package_name: "apache2"
+        os_server: "Ubuntu"
+      when:
+        ansible_os_family == "Debian"
+
+    # Ping check host
     - name: Ping check host
       ping: ~
 #    - name: Install Apache2
 #      apt: name=apache2 update_cache=yes
+    # Install Lamp stack
+    - name: Install LAMP Stack Apt
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - "{{ server_package_name }}"
+        - mysql-server
+        - php
+        - php-mysql
+      when:
+        ansible_os_family == "Debian"
+
+    - name: Install LAMP Stack Yum
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - "{{ server_package_name }}"
+        - php
+        - php-mysql
+      when:
+        ansible_os_family == "RedHat"
+    - name: Start HTTPD after install
+      service: name=httpd state=started
+      when:
+        ansible_os_family == "RedHat"
+
+    - name: deploy html file
+      template:
+        src: ./{{ index_file }}
+        dest: /var/www/html/index.html
+      notify:
+        - restart_web
+        - ping
+
+  handlers:
+    - name: restart_web
+      service:
+        name: "{{ item }}"
+        state: restarted
+      loop:
+        - "{{ server_package_name }}"
+    - name: ping
+      ping: ~

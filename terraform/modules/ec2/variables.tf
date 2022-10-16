@@ -19,3 +19,20 @@ variable "instance_type" {
     error_message = "Value not allow."
   }
 }
+
+variable "server_ami_filter_name" {
+  description = "The AMI filter name"
+  default     = "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
+  type        = string
+}
+
+variable "os_name" {
+  description = "The OS name"
+  default     = "ubuntuOS"
+  type        = string
+
+  validation {
+    condition = contains(["ubuntuOS", "centOS"], var.os_name)
+    error_message = "Value not allow."
+  }
+}
